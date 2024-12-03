@@ -20,13 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.moneyflow.design.About
+import com.example.moneyflow.design.Contacts
+import com.example.moneyflow.design.Home
 
 
 class MainActivity : ComponentActivity() {
@@ -104,19 +106,6 @@ data class BarItem(
     val image: ImageVector,
     val route: String
 )
-
-@Composable
-fun Home(){
-    Text("Home Page", fontSize = 30.sp)
-}
-@Composable
-fun Contacts(){
-    Text("Contact Page", fontSize = 30.sp)
-}
-@Composable
-fun About(){
-    Text("About Page", fontSize = 30.sp)
-}
 
 sealed class NavRoutes(val route: String) {
     object Home : NavRoutes("home")
