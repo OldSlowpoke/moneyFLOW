@@ -1,114 +1,273 @@
 package com.example.moneyflow.model
 
+import androidx.lifecycle.LiveData
+import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
-@Entity(tableName = "users")
-data class User(
-    @PrimaryKey(autoGenerate = true) val userId: Int,
-    val name: String,
-    val birthDate: String,
-    val login: String,
-    val password: String
+
+@Entity(tableName = "user")
+data class Users(
+    @PrimaryKey(autoGenerate = true) val userid: Int,
+    val username: String,
+    val password: String,
+    val logger: String,
+    val birthdate: String,
 )
 
-@Entity(tableName = "asset_types")
-data class AssetType(
-    @PrimaryKey(autoGenerate = true) val typeId: Int,
-    val name: String,
-    val description: String
+@Entity(tableName = "assetsTypes")
+data class AssetsTypes(
+    @PrimaryKey(autoGenerate = true) val assetTypeId: Int,
+    val assetTypeName: String,
+    val assetTypeDescription: String
 )
 
-@Entity(tableName = "assets")
-data class Asset(
+@Entity(tableName = "assets",
+    foreignKeys = [
+        ForeignKey(
+            entity = AnalyticalReports::class,
+            parentColumns = kotlin.arrayOf("userid"),
+            childColumns = kotlin.arrayOf("userid"),
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = AnalyticalReports::class,
+            parentColumns = kotlin.arrayOf("assetTypeId"),
+            childColumns = kotlin.arrayOf("assetTypeId"),
+            onDelete = ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["userid","assetTypeId"])]
+)
+data class Assets(
     @PrimaryKey(autoGenerate = true) val assetId: Int,
-    val typeId: Int,
-    val accountId: Int
+    val userid: Int,
+    val accountsId: Int,
+    val assetTypeId: Int
 )
 
-@Entity(tableName = "accounts")
-data class Account(
+@Entity(tableName = "accounts",
+    foreignKeys = [
+        ForeignKey(
+            entity = Assets::class,
+            parentColumns = kotlin.arrayOf("assetId"),
+            childColumns = kotlin.arrayOf("assetId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["assetId"])]
+)
+data class Accounts(
     @PrimaryKey(autoGenerate = true) val accountId: Int,
-    val name: String
+    val assetId: Int,
+    val accountsName: String,
+    val initialAmount: Double
 )
 
-@Entity(tableName = "analytic_reports")
-data class AnalyticReport(
-    @PrimaryKey(autoGenerate = true) val reportId: Int,
-    val userId: Int,
-    val accountId: Int,
+@Entity(tableName = "analyticalReports",
+    foreignKeys = [
+        ForeignKey(
+            entity = Users::class,
+            parentColumns = kotlin.arrayOf("userid"),
+            childColumns = kotlin.arrayOf("userid"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["userid"])]
+)
+data class AnalyticalReports(
+    @PrimaryKey(autoGenerate = true) val analyticalReportId: Int,
+    val userid: Int,
     val date: String,
-    val totalExpenses: Double,
-    val totalIncome: Double,
-    val expenseCount: Int,
-    val incomeCount: Int
+    val spendingAmount: Double,
+    val incomeAmount: Double,
+    val numberOfAmount: Int,
+    val numberOfIncomes: Int
 )
 
-@Entity(tableName = "expense_types")
-data class ExpenseType(
-    @PrimaryKey(autoGenerate = true) val typeId: Int,
-    val name: String,
-    val description: String
+@Entity(tableName = "expenses",
+    foreignKeys = [
+        ForeignKey(
+            entity = Accounts::class,
+            parentColumns = kotlin.arrayOf("accountId"),
+            childColumns = kotlin.arrayOf("accountId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = ExpenseTypes::class,
+            parentColumns = kotlin.arrayOf("expenseTypeId"),
+            childColumns = kotlin.arrayOf("expenseTypeId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["accountId","incomeTypeId"])]
 )
-
-@Entity(tableName = "expenses")
-data class Expense(
+data class Expenses(
     @PrimaryKey(autoGenerate = true) val expenseId: Int,
-    val accountId: Int,
-    val typeId: Int,
-    val date: String
-){
-    // Вторичный конструктор
-    constructor(accountId: Int, typeId: Int, date: String) : this(0, accountId, typeId, date)
-}
-
-@Entity(tableName = "income_types")
-data class IncomeType(
-    @PrimaryKey(autoGenerate = true) val typeId: Int,
-    val name: String,
-    val description: String
-)
-
-@Entity(tableName = "incomes")
-data class Income(
-    @PrimaryKey(autoGenerate = true) val incomeId: Int,
-    val accountId: Int,
-    val typeId: Int,
+    val accountsId: Int,
     val date: String,
-    val amount: Double
+    val expensesType: Int,
 )
 
-@Entity(tableName = "receipts")
-data class Receipt(
-    @PrimaryKey(autoGenerate = true) val receiptId: Int,
+@Entity(tableName = "incomes",
+    foreignKeys = [
+        ForeignKey(
+            entity = Accounts::class,
+            parentColumns = kotlin.arrayOf("accountId"),
+            childColumns = kotlin.arrayOf("accountId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = IncomeTypes::class,
+            parentColumns = kotlin.arrayOf("incomeTypeId"),
+            childColumns = kotlin.arrayOf("incomeTypeId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["accountId","incomeTypeId"])]
+)
+data class Incomes(
+    @PrimaryKey(autoGenerate = true) val incomeId: Int,
+    val accountsId: Int,
+    val incomeTypeId: Int,
+    val date: String,
+    val incomesAmount: Double
+)
+
+@Entity(tableName = "incomeTypes")
+data class IncomeTypes(
+    @PrimaryKey(autoGenerate = true) val incomeTypeId: Int,
+    val incomeTypeNumber: String,
+    val incomeTypeDescription: String
+)
+
+@Entity(tableName = "expenseTypes")
+data class ExpenseTypes(
+    @PrimaryKey(autoGenerate = true) val expenseTypeId: Int,
+    val expenseTypeNumber: String,
+    val expenseTypeDescription: String
+)
+
+@Entity(tableName = "receiptItem",
+    foreignKeys = [
+        ForeignKey(
+            entity = Expenses::class,
+            parentColumns = kotlin.arrayOf("expenseId"),
+            childColumns = kotlin.arrayOf("expenseId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = UnitsOfMeasurement::class,
+            parentColumns = kotlin.arrayOf("unitId"),
+            childColumns = kotlin.arrayOf("unitId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = Product::class,
+            parentColumns = kotlin.arrayOf("productId"),
+            childColumns = kotlin.arrayOf("productId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["productId","unitId","expenseId"])]
+)
+data class ReceiptItem(
     val expenseId: Int,
-    val unitId: Int,
-    val pricePerUnit: Double
-)
-
-@Entity(tableName = "items")
-data class Item(
-    @PrimaryKey(autoGenerate = true) val itemId: Int,
-    val receiptId: Int,
     val productId: Int,
-    val quantity: Int
+    val unitId: Int,
+    val pricePerUnit: Double,
+    val quantity: Int,
+    val discount: Boolean,
+    val total: Double
 )
 
-@Entity(tableName = "products")
+@Entity(tableName = "product",
+    foreignKeys = [
+        ForeignKey(
+            entity = ProductCategory::class,
+            parentColumns = kotlin.arrayOf("categoryId"),
+            childColumns = kotlin.arrayOf("categoryId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["categoryId"])]
+)
 data class Product(
     @PrimaryKey(autoGenerate = true) val productId: Int,
-    val description: String,
-    val categoryId: Int
+    val categoryId: Int,
+    val productName: String,
+    val productDescription: String,
 )
 
-@Entity(tableName = "units_of_measure")
-data class UnitOfMeasure(
-    @PrimaryKey(autoGenerate = true) val unitId: Int,
-    val name: String
+@Entity(tableName = "productCategory",
+    foreignKeys = [
+        ForeignKey(
+            entity = Product::class,
+            parentColumns = kotlin.arrayOf("productId"),
+            childColumns = kotlin.arrayOf("productId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = Categories::class,
+            parentColumns = kotlin.arrayOf("categoryId"),
+            childColumns = kotlin.arrayOf("categoryId"),
+            onDelete = androidx.room.ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["productId","categoryId"])]
+)
+data class ProductCategory(
+    val categoryId: Int,
+    val productId: Int,
 )
 
 @Entity(tableName = "categories")
-data class Category(
+data class Categories(
     @PrimaryKey(autoGenerate = true) val categoryId: Int,
-    val name: String
+    val categoryName: String,
 )
+
+@Entity(tableName = "unitsOfMeasurement")
+data class UnitsOfMeasurement(
+    @PrimaryKey(autoGenerate = true) val unitId: Int,
+    val unitName: String,
+)
+
+data class UserWithAnalyticReport(
+    @Embedded val users: Users,
+    @Relation(
+        parentColumn = "userid",
+        entityColumn = "userid"
+    )
+    val analyticReport: LiveData<List<AnalyticalReports>>
+)
+
+data class UserWithExpenses(
+    @Embedded val users: Users,
+    @Relation(
+        parentColumn = "userid",
+        entityColumn = "userid"
+    )
+    val expenses: LiveData<List<Expenses>>
+)
+
+data class AssetWhitAccount(
+    @Embedded val assets: Assets,
+    @Relation(
+        parentColumn = "assetId",
+        entityColumn = "assetId"
+    )
+    val account: LiveData<List<Accounts>>
+)
+ data class AssetsTypesWithAssets(
+     @Embedded val assetsTypes: AssetsTypes,
+     @Relation(
+         parentColumn = "assetTypeId",
+         entityColumn = "assetTypeId"
+     )
+     val assets: Assets
+ )
+

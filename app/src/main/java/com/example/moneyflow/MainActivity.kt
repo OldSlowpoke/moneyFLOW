@@ -3,6 +3,7 @@ package com.example.moneyflow
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -29,10 +30,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.moneyflow.design.About
 import com.example.moneyflow.design.Contacts
 import com.example.moneyflow.design.Home
+import com.example.moneyflow.viewmodel.ExpenseViewModel
+import com.example.moneyflow.viewmodel.ExpenseViewModelFactory
 
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -108,9 +110,9 @@ data class BarItem(
 )
 
 sealed class NavRoutes(val route: String) {
-    object Home : NavRoutes("home")
-    object Contacts : NavRoutes("contacts")
-    object About : NavRoutes("about")
+    data object Home : NavRoutes("home")
+    data object Contacts : NavRoutes("contacts")
+    data object About : NavRoutes("about")
 }
 
 @Preview(showBackground = true)
