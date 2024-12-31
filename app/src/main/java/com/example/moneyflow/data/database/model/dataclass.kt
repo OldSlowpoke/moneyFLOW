@@ -1,4 +1,4 @@
-package com.example.moneyflow.model
+package com.example.moneyflow.data.database.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.Embedded
@@ -8,8 +8,8 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 
-
-@Entity(tableName = "user")
+/*
+@Entity(tableName = "users")
 data class Users(
     @PrimaryKey(autoGenerate = true) val userid: Int,
     val username: String,
@@ -203,6 +203,7 @@ data class Product(
 )
 
 @Entity(tableName = "productCategory",
+    primaryKeys = ["categoryId", "productId"],
     foreignKeys = [
         ForeignKey(
             entity = Product::class,
@@ -236,13 +237,15 @@ data class UnitsOfMeasurement(
     val unitName: String,
 )
 
+*/
+
 data class UserWithAnalyticReport(
     @Embedded val users: Users,
     @Relation(
         parentColumn = "userid",
         entityColumn = "userid"
     )
-    val analyticReport: LiveData<List<AnalyticalReports>>
+    val analyticReport: List<AnalyticalReports>
 )
 
 data class UserWithExpenses(
@@ -251,7 +254,7 @@ data class UserWithExpenses(
         parentColumn = "userid",
         entityColumn = "userid"
     )
-    val expenses: LiveData<List<Expenses>>
+    val expenses: List<Expenses>
 )
 
 data class AssetWhitAccount(
@@ -260,7 +263,7 @@ data class AssetWhitAccount(
         parentColumn = "assetId",
         entityColumn = "assetId"
     )
-    val account: LiveData<List<Accounts>>
+    val account: List<Accounts>
 )
  data class AssetsTypesWithAssets(
      @Embedded val assetsTypes: AssetsTypes,
