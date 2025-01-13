@@ -9,21 +9,9 @@ import androidx.room.Index
     primaryKeys = ["expenseId", "productId"],
     foreignKeys = [
         ForeignKey(
-            entity = Expenses::class,
-            parentColumns = ["expenseId"],
-            childColumns = ["expenseId"],
-            onDelete = androidx.room.ForeignKey.CASCADE
-        ),
-        ForeignKey(
             entity = UnitsOfMeasurement::class,
             parentColumns = ["unitId"],
             childColumns = ["unitId"],
-            onDelete = androidx.room.ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = Product::class,
-            parentColumns = ["productId"],
-            childColumns = ["productId"],
             onDelete = androidx.room.ForeignKey.CASCADE
         ),
     ],

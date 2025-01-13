@@ -22,13 +22,13 @@ import com.example.moneyflow.data.database.model.Accounts
 import com.example.moneyflow.data.database.model.AnalyticalReports
 import com.example.moneyflow.data.database.model.Assets
 import com.example.moneyflow.data.database.model.AssetsTypes
-import com.example.moneyflow.data.database.model.Categories
+import com.example.moneyflow.data.database.model.ProductCategories
 import com.example.moneyflow.data.database.model.ExpenseTypes
 import com.example.moneyflow.data.database.model.Expenses
 import com.example.moneyflow.data.database.model.IncomeTypes
 import com.example.moneyflow.data.database.model.Incomes
 import com.example.moneyflow.data.database.model.Product
-import com.example.moneyflow.data.database.model.ProductCategory
+import com.example.moneyflow.data.database.model.ProductAndCategory
 import com.example.moneyflow.data.database.model.ReceiptItem
 import com.example.moneyflow.data.database.model.UnitsOfMeasurement
 import com.example.moneyflow.data.database.model.Users
@@ -37,13 +37,13 @@ import com.example.moneyflow.data.database.model.Users
     (Accounts::class),
     (AnalyticalReports::class),
     (Assets::class),
-    (Categories::class),
+    (ProductCategories::class),
     (Expenses::class),
     (ExpenseTypes::class),
     (Incomes::class),
     (IncomeTypes::class),
     (Product::class),
-    (ProductCategory::class),
+    (ProductAndCategory::class),
     (ReceiptItem::class),
     (UnitsOfMeasurement::class),
     (AssetsTypes::class)
@@ -65,7 +65,7 @@ abstract class UserRoomDatabase: RoomDatabase() {
     abstract fun receiptItemsDao(): ReceiptItemDao
     abstract fun unitsOfMeasurementDao(): UnitsOfMeasurementDao
     abstract fun assetsTypesDao(): AssetsTypesDao
-    abstract fun accacoutsDao(): AccountsDao
+    abstract fun accountsDao(): AccountsDao
 
     // реализуем синглтон
     companion object {

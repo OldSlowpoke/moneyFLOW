@@ -7,10 +7,10 @@ import com.example.moneyflow.data.database.model.Expenses
 
 data class ExpenseWithType (
     @Embedded
-    val expenseTypes: ExpenseTypes,
+    val expenseTypes: Expenses,
     @Relation(
         parentColumn = "expenseTypeId",
         entityColumn = "expenseTypeId"
     )
-    val expenses: Expenses
+    val expenses: ExpenseTypes
 )

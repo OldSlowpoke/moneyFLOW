@@ -8,8 +8,6 @@ import androidx.room.PrimaryKey
 data class Users(
     @PrimaryKey(autoGenerate = true) val userid: Int,
     val username: String,
-    val password: String,
-    val logger: String,
     val birthdate: String,
 ) {
 

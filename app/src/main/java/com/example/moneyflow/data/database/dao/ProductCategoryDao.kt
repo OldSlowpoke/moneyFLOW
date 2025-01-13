@@ -1,12 +1,12 @@
 package com.example.moneyflow.data.database.dao
 
 import androidx.room.Dao
-import com.example.moneyflow.data.database.model.ProductCategory
+import com.example.moneyflow.data.database.model.ProductAndCategory
 
 /**
- * [Room] DAO for [ProductCategory] related operations.
+ * [Room] DAO for [ProductAndCategory] related operations.
  */
 
 @Dao
-abstract class ProductCategoryDao : BaseDao<ProductCategory> {
+abstract class ProductCategoryDao : BaseDao<ProductAndCategory> {
 }

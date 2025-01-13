@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "product",
     foreignKeys = [
         ForeignKey(
-            entity = ProductCategory::class,
+            entity = ProductAndCategory::class,
             parentColumns = ["categoryId"],
             childColumns = ["categoryId"],
             onDelete = androidx.room.ForeignKey.CASCADE
@@ -20,7 +20,6 @@ import androidx.room.PrimaryKey
 @Immutable
 data class Product(
     @PrimaryKey(autoGenerate = true) val productId: Int,
-    val categoryId: Int,
     val productName: String,
     val productDescription: String,
 )

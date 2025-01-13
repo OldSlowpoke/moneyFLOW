@@ -1,9 +1,10 @@
 package com.example.moneyflow
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -19,35 +20,47 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.moneyflow.design.About
-import com.example.moneyflow.design.Contacts
-import com.example.moneyflow.design.Home
-import com.example.moneyflow.viewmodel.ExpenseViewModel
-import com.example.moneyflow.viewmodel.ExpenseViewModelFactory
+import com.example.moneyflow.view.About
+import com.example.moneyflow.view.Contacts
+import com.example.moneyflow.view.Home
+import com.example.moneyflow.viewModel.MyViewModel
+import com.example.moneyflow.viewModel.MyViewModelFactory
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-                Main()
+        setContent @OptIn(ExperimentalFoundationApi::class){
+            val owner = LocalViewModelStoreOwner.current
+            owner?.let {
+                val myViewModel: MyViewModel = viewModel(
+                    it,
+                    "MyViewModel",
+                    MyViewModelFactory(LocalContext.current.applicationContext as Application)
+                )
+                Main(myViewModel)
+            } ?: throw Exception("LocalViewModelStoreOwner is null")
         }
     }
 }
+
 @Composable
-fun Main() {
+fun Main(myViewModel: MyViewModel= viewModel()) {
     val navController = rememberNavController()
     Column(Modifier.padding(8.dp)) {
         NavHost(navController, startDestination = NavRoutes.Home.route, modifier = Modifier.weight(1f)) {
-            composable(NavRoutes.Home.route) { Home() }
+            composable(NavRoutes.Home.route) { Home(navController, myViewModel) }
             composable(NavRoutes.Contacts.route) { Contacts()  }
             composable(NavRoutes.About.route) { About() }
         }

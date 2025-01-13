@@ -14,13 +14,20 @@ import androidx.room.PrimaryKey
             childColumns = ["assetId"],
             onDelete = androidx.room.ForeignKey.CASCADE
         ),
+        ForeignKey(
+            entity = Users::class,
+            parentColumns = ["userid"],
+            childColumns = ["userid"],
+            onDelete = androidx.room.ForeignKey.CASCADE
+        )
     ],
-    indices = [Index(value = ["assetId"])]
+    indices = [Index(value = ["assetId", "userid"])]
 )
 @Immutable
 data class Accounts(
     @PrimaryKey(autoGenerate = true) val accountId: Int,
     val assetId: Int,
     val accountsName: String,
-    val initialAmount: Double
+    val initialAmount: Double,
+    val userid: Int
 )
