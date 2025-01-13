@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.moneyflow.data.database.UserRoomDatabase
 import com.example.moneyflow.data.database.connections.ExpenseWithProduct
-import com.example.moneyflow.data.database.connections.IncomensWithType
 import com.example.moneyflow.data.database.dao.AccountsDao
 import com.example.moneyflow.data.repository.MainRepository
 

@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "assets",
     foreignKeys = [
         ForeignKey(
-            entity = AnalyticalReports::class,
+            entity = Users::class,
             parentColumns = ["userid"],
             childColumns = ["userid"],
             onDelete = ForeignKey.CASCADE
@@ -28,5 +28,5 @@ data class Assets(
     @PrimaryKey(autoGenerate = true) val assetId: Int,
     val userid: Int,
     val accountsId: Int,
-    val assetTypeId: Int
+    val assetType: String
 )

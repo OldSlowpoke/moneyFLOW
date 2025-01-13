@@ -21,7 +21,7 @@ import androidx.room.Index
 data class ReceiptItem(
     val expenseId: Int,
     val productId: Int,
-    val unitId: Int,
+    val unit: String,
     val pricePerUnit: Double,
     val quantity: Int,
     val discount: Boolean,

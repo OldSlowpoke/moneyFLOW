@@ -15,12 +15,6 @@ import java.time.OffsetDateTime
             childColumns = ["accountId"],
             onDelete = androidx.room.ForeignKey.CASCADE
         ),
-        ForeignKey(
-            entity = IncomeTypes::class,
-            parentColumns = ["incomeTypeId"],
-            childColumns = ["incomeTypeId"],
-            onDelete = androidx.room.ForeignKey.CASCADE
-        ),
     ],
     indices = [Index(value = ["accountId","incomeTypeId"])]
 )
@@ -28,7 +22,7 @@ import java.time.OffsetDateTime
 data class Incomes(
     @PrimaryKey(autoGenerate = true) val incomeId: Int,
     val accountsId: Int,
-    val incomeTypeId: Int,
+    val incomeType: String,
     val date: OffsetDateTime = OffsetDateTime.now(), // Значение по умолчанию
     val incomesAmount: Double
 )

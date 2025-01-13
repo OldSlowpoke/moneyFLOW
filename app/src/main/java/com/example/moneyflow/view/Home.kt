@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.moneyflow.data.database.connections.ExpenseWithProduct
-import com.example.moneyflow.data.database.connections.IncomensWithType
 import com.example.moneyflow.viewModel.MyViewModel
 
 
@@ -84,7 +83,7 @@ fun TransactionList(
     delIncome: (IncomensWithType) -> Unit
 ) {
     var activeButton by remember { mutableStateOf(1) }
-    val currentList = if (activeButton == 1) expenses else incomes
+    val transaction = if (activeButton == 1) expenses else incomes
     val selectedFunction = if (activeButton == 1) delExpense else delIncome
 
     Column(
@@ -105,7 +104,7 @@ fun TransactionList(
         ) {
             Text("Button 2")
         }
-        val groups = currentList.groupBy { it.data }
+        val groups = transaction.groupBy { it.data }
         LazyColumn {
             groups.forEach { (date, transactions) ->
                 stickyHeader {
