@@ -25,5 +25,4 @@ data class ReceiptItem(
     val pricePerUnit: Double,
     val quantity: Int,
     val discount: Boolean,
-    val total: Double
 )

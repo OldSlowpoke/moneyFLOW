@@ -7,14 +7,6 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "product",
-    foreignKeys = [
-        ForeignKey(
-            entity = ProductAndCategory::class,
-            parentColumns = ["categoryId"],
-            childColumns = ["categoryId"],
-            onDelete = androidx.room.ForeignKey.CASCADE
-        ),
-    ],
     indices = [Index(value = ["categoryId"])]
 )
 @Immutable

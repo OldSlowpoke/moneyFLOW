@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.example.moneyflow.data.database.UserRoomDatabase
 import com.example.moneyflow.data.database.connections.ExpenseWithProduct
 import com.example.moneyflow.data.database.dao.AccountsDao
+import com.example.moneyflow.data.database.model.Expenses
+import com.example.moneyflow.data.database.model.Incomes
 import com.example.moneyflow.data.repository.MainRepository
 
 class MyViewModel (application: Application) : ViewModel(){
 
     private val repository: MainRepository
-    val expenses: LiveData<List<ExpenseWithProduct>>
-    val incomes: LiveData<List<IncomensWithType>>
+    val expenses: LiveData<List<Expenses>>
+    val incomes: LiveData<List<Incomes>>
     val balance: LiveData<Double>
 
     init {
@@ -25,10 +27,10 @@ class MyViewModel (application: Application) : ViewModel(){
         incomes = repository.incomes
         balance = repository.balance
     }
-    fun deleteExpense(expense: ExpenseWithProduct){
+    fun deleteExpense(expense: Expenses){
         repository.deleteExpense(expense)
     }
-    fun deleteIncome(income: IncomensWithType){
+    fun deleteIncome(income: Incomes){
         repository.deleteIncome(income)
     }
 }

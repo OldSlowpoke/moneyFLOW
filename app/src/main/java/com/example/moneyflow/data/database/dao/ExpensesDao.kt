@@ -17,6 +17,16 @@ abstract class ExpensesDao : BaseDao<Expenses> {
     @Query(
         """
         SELECT * FROM expenses
+        ORDER BY date DESC
+        LIMIT :limit
+        """
+    )
+    abstract fun getLastThirtyExpenses(limit: Int = 30): LiveData<List<Expenses>>
+
+    @Transaction
+    @Query(
+        """
+        SELECT * FROM expenses
         WHERE date BETWEEN :startDate AND :endDate
         """
     )
@@ -24,16 +34,6 @@ abstract class ExpensesDao : BaseDao<Expenses> {
         startDate: String,
         endDate: String
     ): LiveData<List<ExpenseWithProduct>>
-
-    @Transaction
-    @Query(
-        """
-        SELECT * FROM expenses
-        ORDER BY date DESC
-        LIMIT 30
-        """
-    )
-    abstract fun getLastThirtyExpenses(): LiveData<List<ExpenseWithProduct>>
 
     @Transaction
     @Query(

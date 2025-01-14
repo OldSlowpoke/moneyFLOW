@@ -18,7 +18,7 @@ abstract class IncomesDao : BaseDao<Incomes> {
         SELECT * FROM incomes
         """
     )
-    abstract fun getAllIncomes(): LiveData<List<IncomensWithType>>
+    abstract fun getAllIncomes(): LiveData<List<Incomes>>
 
     @Transaction
     @Query(
@@ -30,7 +30,7 @@ abstract class IncomesDao : BaseDao<Incomes> {
     abstract fun getIncomesBetweenDates(
         startDate: String,
         endDate: String
-    ): LiveData<List<IncomensWithType>>
+    ): LiveData<List<Incomes>>
 
     @Transaction
     @Query(
@@ -40,5 +40,5 @@ abstract class IncomesDao : BaseDao<Incomes> {
         LIMIT 30
         """
     )
-    abstract fun getLastThirtyIncomes(): LiveData<List<IncomensWithType>>
+    abstract fun getLastThirtyIncomes(): LiveData<List<Incomes>>
 }

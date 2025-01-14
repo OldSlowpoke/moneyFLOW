@@ -18,9 +18,9 @@ abstract class AccountsDao : BaseDao<Accounts> {
     @Query(
         """
         SELECT
-            COALESCE(SUM(initialAmount), 0) +
+            COALESCE((SELECT SUM(initialAmount) FROM Accounts), 0) +
             COALESCE((SELECT SUM(incomesAmount) FROM Incomes), 0) -
-            COALESCE((SELECT SUM(total) FROM ReceiptItem JOIN Expenses ON ReceiptItem.expenseId = Expenses.expenseId), 0) AS totalBalance
+            COALESCE((SELECT SUM(total) FROM Expenses), 0) AS totalBalance
         FROM Accounts
         """
     )

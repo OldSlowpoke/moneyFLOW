@@ -41,7 +41,7 @@ import com.example.moneyflow.viewModel.MyViewModelFactory
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent @OptIn(ExperimentalFoundationApi::class){
+        setContent {
             val owner = LocalViewModelStoreOwner.current
             owner?.let {
                 val myViewModel: MyViewModel = viewModel(

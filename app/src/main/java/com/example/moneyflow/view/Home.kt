@@ -1,5 +1,6 @@
 package com.example.moneyflow.view
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.moneyflow.data.database.connections.ExpenseWithProduct
+import com.example.moneyflow.data.database.model.Expenses
+import com.example.moneyflow.data.database.model.Incomes
 import com.example.moneyflow.viewModel.MyViewModel
 
 
@@ -75,16 +78,15 @@ fun ActionButton(icon: ImageVector, text: String, onClick: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionList(
-    expenses: List<ExpenseWithProduct>,
-    incomes: List<IncomensWithType>,
-    delExpense: (ExpenseWithProduct) -> Unit,
-    delIncome: (IncomensWithType) -> Unit
+    expenses: List<Expenses>,
+    incomes: List<Incomes>,
+    delExpense: (Expenses) -> Unit,
+    delIncome: (Incomes) -> Unit
 ) {
     var activeButton by remember { mutableStateOf(1) }
-    val transaction = if (activeButton == 1) expenses else incomes
-    val selectedFunction = if (activeButton == 1) delExpense else delIncome
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -104,16 +106,32 @@ fun TransactionList(
         ) {
             Text("Button 2")
         }
-        val groups = transaction.groupBy { it.data }
-        LazyColumn {
-            groups.forEach { (date, transactions) ->
-                stickyHeader {
-                    Text(
-                        text = date
-                    )
+        if (activeButton == 1){
+            val groups = expenses.groupBy { it.date }
+            LazyColumn {
+                groups.forEach { (date, costs) ->
+                    stickyHeader {
+                        Text(
+                            text = date.toString()
+                        )
+                    }
+                    items(costs.size) { index ->
+                        TransactionItem(transaction = costs[index], onDelete = delExpense)
+                    }
                 }
-                items(transactions) { transaction ->
-                    TransactionItem(transaction = transaction, onDelete = selectedFunction)
+            }
+        }else{
+            val groups = incomes.groupBy { it.date }
+            LazyColumn {
+                groups.forEach { (date, incomes) ->
+                    stickyHeader {
+                        Text(
+                            text = date.toString()
+                        )
+                    }
+                    items(incomes.size) { index ->
+                        TransactionItem(transaction = incomes[index], onDelete = delIncome)
+                    }
                 }
             }
         }
@@ -121,7 +139,7 @@ fun TransactionList(
 }
 
 @Composable
-fun TransactionItem(transaction: Transaction, onDelete: (Transaction) -> Unit) {
+fun TransactionItem(transaction: Expenses, onDelete: (Expenses) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     Column {
         Row(
@@ -130,9 +148,9 @@ fun TransactionItem(transaction: Transaction, onDelete: (Transaction) -> Unit) {
                 .clickable { expanded = !expanded }
                 .padding(16.dp)
         ) {
-            Text(text = transaction.description)
+            Text(text = transaction.expensesType)
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = transaction.amount.toString())
+            Text(text = transaction.total.toString())
         }
         if (expanded) {
             DropdownMenu(
@@ -152,10 +170,37 @@ fun TransactionItem(transaction: Transaction, onDelete: (Transaction) -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    Home()
+fun TransactionItem(transaction: Incomes, onDelete: (Incomes) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = !expanded }
+                .padding(16.dp)
+        ) {
+            Text(text = transaction.incomeType)
+            Spacer(modifier = Modifier.weight(1f))
+            Text(text = transaction.incomesAmount.toString())
+        }
+        if (expanded) {
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                DropdownMenuItem(
+                    onClick = { /* Handle edit */ },
+                    text = {Text("Редактировать")}
+                )
+                DropdownMenuItem(
+                    onClick = { onDelete(transaction) },
+                    text = {Text("Удалить")}
+                )
+            }
+        }
+    }
 }
+
 
 

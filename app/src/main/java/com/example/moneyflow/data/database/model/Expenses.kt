@@ -24,4 +24,5 @@ data class Expenses(
     val accountId: Int,
     val date: OffsetDateTime = OffsetDateTime.now(), // Значение по умолчанию
     val expensesType: String,
+    val total: Double
 )

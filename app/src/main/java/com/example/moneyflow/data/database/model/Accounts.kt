@@ -21,7 +21,7 @@ import androidx.room.PrimaryKey
             onDelete = androidx.room.ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["assetId", "userid"])]
+    indices = [Index(value = ["assetId"]), Index(value = ["userid"])]
 )
 @Immutable
 data class Accounts(

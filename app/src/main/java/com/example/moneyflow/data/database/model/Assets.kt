@@ -13,15 +13,9 @@ import androidx.room.PrimaryKey
             parentColumns = ["userid"],
             childColumns = ["userid"],
             onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = AnalyticalReports::class,
-            parentColumns = ["assetTypeId"],
-            childColumns = ["assetTypeId"],
-            onDelete = ForeignKey.CASCADE
-        ),
+        )
     ],
-    indices = [Index(value = ["userid","assetTypeId"])]
+    indices = [Index(value = ["userid"])]
 )
 @Immutable
 data class Assets(
