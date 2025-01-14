@@ -2,7 +2,6 @@ package com.example.moneyflow.data.database.model
 
 import androidx.compose.runtime.Immutable
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.Index
 
 @Entity(tableName = "product_and_category",

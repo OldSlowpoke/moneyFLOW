@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.moneyflow.data.database.dao.AccountsDao
 import com.example.moneyflow.data.database.dao.AnalyticalReportsDao
 import com.example.moneyflow.data.database.dao.AssetsDao
@@ -39,8 +40,10 @@ import com.example.moneyflow.data.database.model.Users
     (ReceiptItem::class),
     (UnitsOfMeasurement::class),
     ],
-    version = 1
+    version = 1,
+    exportSchema = false,
 )
+@TypeConverters(DateTimeTypeConverters::class)
 abstract class UserRoomDatabase: RoomDatabase() {
 
     abstract fun userDao(): UsersDao

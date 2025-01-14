@@ -16,7 +16,7 @@ import java.time.OffsetDateTime
             onDelete = androidx.room.ForeignKey.CASCADE
         ),
     ],
-    indices = [Index(value = ["accountId","expenseTypeId"])]
+    indices = [Index(value = ["accountId"])]
 )
 @Immutable
 data class Expenses(

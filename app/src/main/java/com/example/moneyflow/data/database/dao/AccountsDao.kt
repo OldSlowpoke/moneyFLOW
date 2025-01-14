@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.moneyflow.data.database.connections.ExpenseWithProduct
 import com.example.moneyflow.data.database.model.Accounts
 import com.example.moneyflow.data.database.model.Users
 

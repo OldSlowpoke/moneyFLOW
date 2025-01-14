@@ -1,7 +1,6 @@
 package com.example.moneyflow.data.repository
 
 import androidx.lifecycle.LiveData
-import com.example.moneyflow.data.database.connections.ExpenseWithProduct
 import com.example.moneyflow.data.database.dao.AccountsDao
 import com.example.moneyflow.data.database.dao.ExpensesDao
 import com.example.moneyflow.data.database.dao.IncomesDao

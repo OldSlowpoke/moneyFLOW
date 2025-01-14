@@ -16,7 +16,7 @@ abstract class ProductDao : BaseDao<Product> {
     @Transaction
     @Query(
         """
-        SELECT * FROM incomes
+        SELECT * FROM product
         """
     )
     abstract fun GetAllIncomes(): LiveData<List<ProductWithCategory>>

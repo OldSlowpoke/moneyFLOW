@@ -16,11 +16,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.moneyflow.data.database.connections.ExpenseWithProduct
 import com.example.moneyflow.data.database.model.Expenses
 import com.example.moneyflow.data.database.model.Incomes
 import com.example.moneyflow.viewModel.MyViewModel

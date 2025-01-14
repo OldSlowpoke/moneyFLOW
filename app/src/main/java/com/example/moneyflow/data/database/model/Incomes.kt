@@ -16,12 +16,12 @@ import java.time.OffsetDateTime
             onDelete = androidx.room.ForeignKey.CASCADE
         ),
     ],
-    indices = [Index(value = ["accountId","incomeTypeId"])]
+    indices = [Index(value = ["accountId"])]
 )
 @Immutable
 data class Incomes(
     @PrimaryKey(autoGenerate = true) val incomeId: Int,
-    val accountsId: Int,
+    val accountId: Int,
     val incomeType: String,
     val date: OffsetDateTime = OffsetDateTime.now(), // Значение по умолчанию
     val incomesAmount: Double

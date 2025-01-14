@@ -7,6 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 class MyViewModelFactory(private val application: Application) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MyViewModel(application) as T
+        if (modelClass.isAssignableFrom(MyViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MyViewModel(application) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
